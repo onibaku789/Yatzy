@@ -1,6 +1,8 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.8.21'
     id "com.adarshr.test-logger" version "3.2.0"
+    id 'jacoco-report-aggregation'
+    id 'io.gitlab.arturbosch.detekt' version '1.23.0'
 }
 
 
@@ -27,6 +29,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -34,6 +37,32 @@ java {
 }
 kotlin {
     jvmToolchain(17)
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = 'LINE'
+                minimum = 0.800000
+            }
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
+    dependsOn tasks.named('jacocoTestCoverageVerification')
+}
+
+detekt {
+    ignoreFailures = true // set me false to fail on error
+    config.setFrom("$projectDir/config/detekt/detekt.yml")
+    buildUponDefaultConfig = false // preconfigure defaults
+    allRules = false // activate all available (even unstable) rules.
+    reports {
+        html.required = true
+    }
 }
 
 
