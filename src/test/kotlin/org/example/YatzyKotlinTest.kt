@@ -99,7 +99,7 @@ class YatzyKotlinTest {
     fun four_of_a_knd() {
         assertThat(YatzyKotlin.four_of_a_kind(3, 3, 3, 3, 5)).isEqualTo(12)
         assertThat(YatzyKotlin.four_of_a_kind(5, 5, 5, 4, 5)).isEqualTo(20)
-        assertThat(YatzyKotlin.three_of_a_kind(3, 3, 3, 3, 3)).isEqualTo(9)
+        assertThat(YatzyKotlin.four_of_a_kind(3, 3, 3, 3, 3)).isEqualTo(12)
     }
 
     @Test

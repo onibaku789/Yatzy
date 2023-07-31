@@ -12,11 +12,15 @@ public class YatzyHand {
     private final List<Integer> hand;
     private final Map<Integer, Long> frequency;
 
-    YatzyHand(int... hand) {
-        if (hand.length != 5) {
+    YatzyHand(int... dice) {
+        if (dice.length != 5) {
             throw new IllegalArgumentException("This Yatzy played with 5 dice!");
         }
-        this.hand = Arrays.stream(hand).boxed().collect(Collectors.toList());
+
+        this.hand = Arrays.stream(dice)
+                .boxed()
+                .collect(Collectors.toList());
+
         frequency = this.hand.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
@@ -125,7 +129,8 @@ public class YatzyHand {
     }
 
     public Optional<Integer> valueOfTheMostFrequent(int frequency) {
-        return dieValueFrequencyOf(frequency).stream().max(Comparator.naturalOrder());
+        return dieValueFrequencyOf(frequency).stream()
+                .max(Comparator.naturalOrder());
     }
 
     private Stream<Integer> stream() {
